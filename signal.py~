@@ -1,0 +1,54 @@
+from scipy.fftpack import fft, ifft
+from pylab import *
+from math import fabs
+import numpy
+from scipy import signal
+
+a = 200 # must be even
+x = numpy.concatenate([numpy.zeros(a),numpy.ones(a),numpy.zeros(a)])
+
+ 
+ww= range(len(x))
+
+
+fir_coef = ifft(x) # real()
+
+tab1 = []
+tab2 = []
+
+s = len(fir_coef)
+for i in range(s/2 ):
+	tab1.append( fir_coef[i])
+	tab2.append(fir_coef[i+s/2])
+
+rotate_coef = numpy.concatenate([tab2, tab1])
+
+x_sinc = numpy.linspace(-15,15,s)
+y_sinc = numpy.sinc(x_sinc)
+#print(y_sinc)
+#plot(x_sinc, y_sinc)
+a = numpy.fft.fft(y_sinc)
+#print(a)
+#plot(x_sinc, numpy.absolute(numpy.fft.ifft(y_sinc)))
+#show()
+
+#print(len(data))
+data = y_sinc
+rotate_coef = numpy.absolute(rotate_coef)
+
+filtered = signal.convolve(rotate_coef, data)
+
+plot(ww[:600], rotate_coef)
+show()
+
+plot(ww[:600], data )
+show()
+
+plot(ww[:600], filtered[:600] )
+show()
+
+plot(ww[:600], signal.lfilter(rotate_coef,1,data))
+show()
+
+
+
