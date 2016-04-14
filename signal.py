@@ -15,34 +15,67 @@ def fft_mirror(d):
 	return numpy.concatenate([t2, t1])
 
 
-a = 300 # must be even
-x = numpy.concatenate([numpy.zeros(a),numpy.ones(a)])
+# a = 10 # must be even
+# x = numpy.concatenate([numpy.zeros(a),numpy.ones(a)])
+# 
+#  
+# ww= range(len(x))
+# 
+# 
+# fir_coef = ifft(x) # real()
+# 
+# s = len(fir_coef)
+# 
+# 
+# rotate_coef = fft_mirror(fir_coef)
+# 
+# x_sinc = numpy.linspace(-15,15,s)
+# y_sinc = numpy.sinc(x_sinc)
 
- 
-ww= range(len(x))
+fnyq = 5000.0
+fsample = 2*fnyq
+top = 1.0/fnyq
+print(top)
+xx = numpy.linspace(0,top*2,fsample) # 10k sample freq
+y1 = numpy.sin((2*3.14*fnyq/2)*xx)
+y2 = numpy.sin((2*3.14*fnyq*5)*xx)
+y3 = numpy.sin((2*3.14*fnyq*10)*xx)
+
+y_out = y1#+y2+y3;
+#fft_out = numpy.fft.fft(y_out)
+#plot(2.0/fsample*numpy.abs(fft_out))
+plot(y_out)
+show()
+
+cutoff_freq = fnyq/5.0
+fc = cutoff_freq/fnyq
+
+fir_coef = signal.firwin(1001, fc)
+print(fir_coef)
 
 
-fir_coef = ifft(x) # real()
-
-s = len(fir_coef)
-
-
-rotate_coef = fft_mirror(fir_coef)
-
-x_sinc = numpy.linspace(-15,15,s)
-y_sinc = numpy.sinc(x_sinc)
+# w,h=signal.freqz(fir_coef)
+# 
+# plot(20*numpy.log10(abs(h)))
+# show()
+#plot(abs(fft(y_out)))
 
 
-data = y_sinc
+plot(signal.lfilter(fir_coef,[1.0],y_out))
+#plot(signal.convolve(fir_coef, y_out))
+show()
+'''
+#data = y_sinc
+data = y_out
 #####rotate_coef = numpy.absolute(rotate_coef)
 rotate_coef = numpy.real(rotate_coef)
+print(rotate_coef)
 
 filtered = signal.convolve(rotate_coef, data)
 
 #plot(ww[:600], numpy.absolute(fft(data)) )
 
 plot(fft_mirror(numpy.absolute(fft(data))))
-plot(x)
 show()
 
 #plot( numpy.absolute(fft(filtered))[:600] )
@@ -54,3 +87,4 @@ show()
 
 
 
+'''
