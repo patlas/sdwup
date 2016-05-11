@@ -3,20 +3,16 @@ from ReadThread import ReadThread
 import time
 import Queue
 
-queue = Queue.Queue(maxsize=0)
-#writeR = WriteThread(queue)
-writeT = ReadThread(queue)
+queue_read = Queue.Queue(maxsize=1000)
+queue_write = Queue.Queue(maxsize=1000)
+write_thread = WriteThread(queue_write)
+read_thread = ReadThread(queue_read)
 
-i = 0
-writeT.start()
 
-# while i<50:
-#     print("MAIN: Sent data: {0}".format(i))
-#     queue.put(i)
-#     time.sleep(0.02)
-#     i+=1
+read_thread.start()
+write_thread.start()
 
-while i<50:
+while True:
     
     try:
         data_4B = queue.get(True, 0.01)  # block until item is available 10ms
@@ -29,7 +25,9 @@ while i<50:
     time.sleep(0.05)
  
 
-time.sleep(1)    
-writeT.interrupt()
-print("Loop exited")
+time.sleep(1)
+
+read_thread.interrupt()
+write_thread.interrupt()
+print("END")
 

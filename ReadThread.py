@@ -15,6 +15,7 @@ class ReadThread(threading.Thread):
         self.fd = open(XILLIBUS_DEV, 'rb')
         self.isInterrupted = False
         #self.fd2 = open("/home/patlas/Pulpit/aa.bin", 'wb')
+        self.data = []
         
     def interrupt(self):
         self.isInterrupted = True
@@ -30,6 +31,7 @@ class ReadThread(threading.Thread):
             #print(ord(data))
             if len(data) != 0:
                 self.queue.put(ord(data))
+                self.data = numpy.append(self.data,ord(data))
                 #print(ord(data))
             #self.fd2.write(a)
             
