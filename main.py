@@ -3,19 +3,43 @@ from ReadThread import ReadThread
 import time
 import Queue
 
+
 queue_read = Queue.Queue(maxsize=1000)
 queue_write = Queue.Queue(maxsize=1000)
 write_thread = WriteThread(queue_write)
 read_thread = ReadThread(queue_read)
 
+#########################
+'''
+import numpy as np
+x = np.linspace(-np.pi, np.pi, 201)
+y = np.sin(x)
+fd = open("sin.bin", 'wb')
+fd.write(bytearray(y))
+import matplotlib.pylab as plt
+plt.plot(y)
+exit()
+'''
+#######################
 
 read_thread.start()
-write_thread.start()
 
+print("SLEEPING")
+time.sleep(5)
+print("PLOTTING\n")
+from WriteThread import FILTERED_DATA
+import matplotlib.pylab as plt
+plt.plot(FILTERED_DATA)
+
+exit()
+#write_thread.start()
+
+i = 0
+data_4B = None
 while True:
     
     try:
-        data_4B = queue.get(True, 0.01)  # block until item is available 10ms
+        data_4B = queue_read.get(True, 0.01)  # block until item is available 10ms
         print("WriteThread: Received data: {0}".format(data_4B))
     except:
         print("{0}\n".format(i))

@@ -4,7 +4,13 @@ import struct
 import numpy
 import binascii
 
-XILLIBUS_DEV = "/home/patlas/Pulpit/a.bin" #/dev/xillibus"  # to be changed
+from WriteThread import FILTERED_DATA
+
+
+XILLIBUS_DEV = "sin.bin"#"/home/patlas/Pulpit/a.bin" #/dev/xillibus"  # to be changed
+
+
+#FILTERED_ARRAY = []# numpy.arange()
 
 class ReadThread(threading.Thread):
 
@@ -31,11 +37,14 @@ class ReadThread(threading.Thread):
             #print(ord(data))
             if len(data) != 0:
                 self.queue.put(ord(data))
-                self.data = numpy.append(self.data,ord(data))
+                #FILTERED_DATA = numpy.append(FILTERED_DATA,ord(data))
+                FILTERED_DATA.append(ord(data))
                 #print(ord(data))
             #self.fd2.write(a)
             
         
         print("ReadThread - stopped.")
         return
+            
+            
             

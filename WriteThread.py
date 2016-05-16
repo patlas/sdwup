@@ -1,7 +1,13 @@
 import threading
 import Queue
+import os
+import numpy
 
-XILLIBUS_DEV = "/home/patlas/Pulpit/a.bin" #/dev/xillibus"  # to be changed
+__size = 50 # os.path.getsize('data.bin') #binary file with data to be filtered
+
+FILTERED_DATA = [] #numpy.arange(__size)
+
+XILLIBUS_DEV = "a.bin" #/dev/xillibus"  # to be changed
 
 class WriteThread(threading.Thread):
 
@@ -24,7 +30,7 @@ class WriteThread(threading.Thread):
         while not self.isInterrupted:
             try:
                 data_4B = self.queue.get(True, 0.01)  # block until item is available 10ms
-                print("WriteThread: Received data: {0}".format(data_4B))
+                #print("WriteThread: Received data: {0}".format(data_4B))
             except:
                 #print("No data in queue")
                 continue
