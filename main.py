@@ -10,16 +10,22 @@ write_thread = WriteThread(queue_write)
 read_thread = ReadThread(queue_read)
 
 #########################
-'''
+
 import numpy as np
 x = np.linspace(-np.pi, np.pi, 201)
-y = np.sin(x)
+
+y = np.float32(np.sin(x))
+print(len(x))
 fd = open("sin.bin", 'wb')
-fd.write(bytearray(y))
+#fd.write(y)
+print(y)
+#fd.write(y.tolist())
 import matplotlib.pylab as plt
 plt.plot(y)
+plt.show()
+#time.sleep(4)
 exit()
-'''
+
 #######################
 
 read_thread.start()
@@ -30,7 +36,9 @@ print("PLOTTING\n")
 from WriteThread import FILTERED_DATA
 import matplotlib.pylab as plt
 plt.plot(FILTERED_DATA)
+plt.show()
 
+read_thread.interrupt()
 exit()
 #write_thread.start()
 
