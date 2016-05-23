@@ -30,16 +30,30 @@ class ReadThread(threading.Thread):
         return self.fd.read(1)
         
     def run(self):
-
+	i = 0
+	_data = 0
         while not self.isInterrupted:
             data = self.__read()
             #print(binascii.b2a_hex(a))
             #print(ord(data))
             if len(data) != 0:
-                self.queue.put(ord(data))
+                data = ord(data)
+		#print(format(data,'02x'))
+		if i == 2:
                 #FILTERED_DATA = numpy.append(FILTERED_DATA,ord(data))
-                FILTERED_DATA.append(ord(data))
-                #print(ord(data))
+			data = (data<<8)&0xFF00
+			data = data+_data
+			print(format(data,'02x'))
+			#if data & 0x8000:
+			#	data=data*(-1)
+                	FILTERED_DATA.append(data)
+			self.queue.put(data)
+			i = 1
+			###print(data)
+		else:
+			_data = data
+			i=2
+                	#print(data)
             #self.fd2.write(a)
             
         
