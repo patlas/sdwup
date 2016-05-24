@@ -33,17 +33,17 @@ def fft_mirror(d):
 # y_sinc = numpy.sinc(x_sinc)
 
 
-fs = 10000.0
+fs = 800.0
 fnyq = fs/2
 t = numpy.arange(fs) / fs
 
-fcut = 1000
+fcut =1000
 
 PI = numpy.pi
 
 
 
-y1 = numpy.sin(2*3.14*2000*t)
+y1 = numpy.sin(2*3.14*128*t)
 y2 = numpy.sin(2*PI*3000*t)
 y3 = numpy.sin(2*PI*5000*t)
 
@@ -52,7 +52,7 @@ y_out = y1+y2+y3;
 #show()
 
 
-fir_coef = signal.firwin(100, fcut/fnyq) #fc
+#fir_coef = signal.firwin(100, fcut/fnyq) #fc
 #print(fir_coef)
 #exit()
 
@@ -68,10 +68,11 @@ show()
 
 
 y_filtered = signal.lfilter(fir_coef,[1.0],y_out)
-plot(y_out[:100])
+#plot(y_out[:100])
 #plot(y_filtered[(len(fir_coef)-1):100+len(fir_coef)], 'r')
 delay = (len(fir_coef)-1)/2
-plot(y_filtered[delay:delay+150])
+plot(y_filtered)
+#plot(y_filtered[delay:delay+150])
 #plot(signal.convolve(fir_coef, y_out))
 show()
 '''
