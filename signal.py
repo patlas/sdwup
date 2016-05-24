@@ -43,7 +43,7 @@ PI = numpy.pi
 
 
 
-y1 = numpy.sin(2*3.14*100*t)
+y1 = numpy.sin(2*3.14*2000*t)
 y2 = numpy.sin(2*PI*3000*t)
 y3 = numpy.sin(2*PI*5000*t)
 
@@ -54,12 +54,16 @@ y_out = y1+y2+y3;
 
 fir_coef = signal.firwin(100, fcut/fnyq) #fc
 #print(fir_coef)
+#exit()
 
 
-# w,h=signal.freqz(fir_coef)
-# 
-# plot(20*numpy.log10(abs(h)))
-# show()
+from FIR_COEF import FIR_COEF as fir_coef
+
+w,h=signal.freqz(fir_coef)
+
+plot(20*numpy.log10(abs(h)))
+show()
+#exit()
 #plot(abs(fft(y_out)))
 
 
