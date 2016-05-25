@@ -1,5 +1,9 @@
 from WriteThread import WriteThread
 from ReadThread import ReadThread
+from TestSignal import TestSignal
+
+
+import os
 import time
 import Queue
 
@@ -9,60 +13,55 @@ queue_write = Queue.Queue(maxsize=1000)
 write_thread = WriteThread(queue_write)
 read_thread = ReadThread(queue_read)
 
-#########################
-'''
-import numpy as np
-x = np.linspace(-np.pi, np.pi, 201)
+# generate sinus signal 20Hz with noise and sample it with 1000Hz
+signal = TestSignal(1000.0, 20.0)
+# save generated noised signal to file
+signal.generate_white("noised_signal.bin")
 
-y = np.int16((np.sin(x)+np.cos(x))*1000)
-y1 = np.uint16(y+32768)
-print(len(x))
-fd = open("sin.bin", 'wb')
-fd.write(y)
-print(y[5])
-#fd.write(y.tolist())
-import matplotlib.pylab as plt
-plt.plot(y)
-plt.show()
-#time.sleep(4)
-exit()
-'''
-#######################
-
+# start waiting for data upcoming from fpga
 read_thread.start()
 
-print("SLEEPING")
-time.sleep(5)
-print("PLOTTING\n")
-from WriteThread import FILTERED_DATA
+# get file size and open (contains noised signal) and send it to fpga
+size = (os.stat("noised_signal.bin")).st_size;
+print("FILE SIZE:"+str(size))
+n_fd = open("noised_signal.bin", "rb")
+
+try:
+	index = 0
+	byte = n_fd.read(1)
+	while byte != "":
+		write_thread.write(byte)
+		byte = n_fd.read(1)
+		index+=1
+	print("Send to fpga: {0} bytes".format(index))
+finally:
+	n_fd.close()
+
+
+#from WriteThread import FILTERED_DATA
+RECEIVED_DATA = []
+read_s = len(RECEIVED_DATA)
+print(read_s)
+while read_s < size:
+	try:
+		temp_data = queue_read.get(True, 0.01)
+		RECEIVED_DATA.append(temp_data)
+		read_s+=2
+		print("Reading data from fpga. Read {0} bytes".format(read_s))
+	except:
+		continue
+
+print("Read data count: {0}".format(len(RECEIVED_DATA)))
+
+read_thread.interrupt()
+
+
+print RECEIVED_DATA
+'''
 import matplotlib.pylab as plt
-print(FILTERED_DATA[5])
-read_thread.interrupt()
-plt.plot(FILTERED_DATA)
-print("FILTERED LEN: "+ str(len(FILTERED_DATA)))
+plt.plot(RECEIVED_DATA)
 plt.show()
+'''
 
-exit()
-#write_thread.start()
-
-i = 0
-data_4B = None
-while True:
-    
-    try:
-        data_4B = queue_read.get(True, 0.01)  # block until item is available 10ms
-        print("WriteThread: Received data: {0}".format(data_4B))
-    except:
-        print("{0}\n".format(i))
-        continue
-    
-    i+=1
-    time.sleep(0.05)
- 
-
-time.sleep(1)
-
-read_thread.interrupt()
-write_thread.interrupt()
 print("END")
 

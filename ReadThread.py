@@ -7,7 +7,7 @@ import binascii
 from WriteThread import FILTERED_DATA
 
 
-XILLIBUS_DEV = "sin.bin"#"/home/patlas/Pulpit/a.bin" #/dev/xillibus"  # to be changed
+XILLIBUS_DEV = "read_from_filter.bin"#"/home/patlas/Pulpit/a.bin" #/dev/xillibus"  # to be changed
 
 
 #FILTERED_ARRAY = []# numpy.arange()
@@ -20,7 +20,6 @@ class ReadThread(threading.Thread):
         self.isStarted = False
         self.fd = open(XILLIBUS_DEV, 'rb')
         self.isInterrupted = False
-        #self.fd2 = open("/home/patlas/Pulpit/aa.bin", 'wb')
         self.data = []
         
     def interrupt(self):
@@ -43,7 +42,7 @@ class ReadThread(threading.Thread):
                 #FILTERED_DATA = numpy.append(FILTERED_DATA,ord(data))
 			data = (data<<8)&0xFF00
 			data = data+_data
-			print(format(data,'02x'))
+			#print(format(data,'02x'))
 			#if data & 0x8000:
 			#	data=data*(-1)
                 	FILTERED_DATA.append(data)

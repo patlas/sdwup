@@ -7,7 +7,7 @@ __size = 50 # os.path.getsize('data.bin') #binary file with data to be filtered
 
 FILTERED_DATA = [] #numpy.arange(__size)
 
-XILLIBUS_DEV = "a.bin" #/dev/xillibus"  # to be changed
+XILLIBUS_DEV = "send_to_filter.bin" #/dev/xillibus"  # to be changed
 
 class WriteThread(threading.Thread):
 
@@ -22,7 +22,10 @@ class WriteThread(threading.Thread):
         self.isInterrupted = True
     
     def __write(self, data):
-        self.fd.write(bytearray([data]))
+        self.fd.write(data)#bytearray([data]))
+
+    def write(self, data):
+	self.__write(data)
         
     def run(self):
         data_4B = None
