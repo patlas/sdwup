@@ -59,6 +59,8 @@ class TestSignal:
 	fd.write(self._sig_to_filter)
 	#numpy.set_printoptions(formatter={'int':hex})
 	#print(self._sig_to_filter)
+
+	self.show()
         
         
         
@@ -95,11 +97,15 @@ class TestSignal:
 ###################3
 	#fd.write(np.int16(y_filtered))
 	#numpy.set_printoptions(formatter={'int':hex})
+	#print("----------------------")
+	#print(np.uint16(y_filtered))
+	#print("----------------------")
 	#print(np.int16(y_filtered))
+	#print("----------------------")
 ##################3
 	
 
-        plt.show()
+        #plt.show()
 
 	'''
 	w,h=signal.freqz(fir_coef)

@@ -55,13 +55,17 @@ print("Read data count: {0}".format(len(RECEIVED_DATA)))
 
 read_thread.interrupt()
 
+print ("-------------------------")
+import numpy
+#numpy.set_printoptions(formatter={'int':hex})
 
-print RECEIVED_DATA
-'''
+#print(numpy.int16(RECEIVED_DATA))
+#print RECEIVED_DATA
+
 import matplotlib.pylab as plt
-plt.plot(RECEIVED_DATA)
+plt.plot(numpy.int16(RECEIVED_DATA))
 plt.show()
-'''
+
 
 print("END")
 
