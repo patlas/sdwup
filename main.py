@@ -29,7 +29,7 @@ n_fd = open("noised_signal.bin", "rb")
 
 try:
 	index = 0
-	byte = n_fd.read(4)
+	byte = n_fd.read(1)
 	while byte != "":
 		# if need send data as BigEndian uncomment 2 lines below
 		#byte = struct.unpack(">i",byte)[0] # 1st one
@@ -40,7 +40,7 @@ try:
 		#write_thread.write(byte[2])
 		#write_thread.write(byte[3])
 		byte = n_fd.read(4)
-		index+=4
+		index+=1
 	print("Send to fpga: {0} bytes".format(index))
 finally:
 	n_fd.close()
