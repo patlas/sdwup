@@ -30,19 +30,21 @@ class ReadThread(threading.Thread):
 
 	def run(self):
 		while not self.isInterrupted:
-			data_r = self.__read()
+			####data_r = self.__read()
+			data = self.__read()
 			#print(binascii.b2a_hex(a))
 			#print(ord(data))
-			if len(data_r) != 0:
-				data = ord(data_r[1])
-				data = (data<<8)&0xFF00
-				data = data + ord(data_r[0])
-				print(format(data,'02x'))
+			if len(data) != 0: ###len(data_r) != 0:
+				###data = ord(data_r[1])
+				###data = (data<<8)&0xFF00
+				###data = data + ord(data_r[0])
+				#print(format(data,'02x'))
 
-				FILTERED_DATA.append(data)
+				#FILTERED_DATA.append(data)
 				self.queue.put(data)
 
 
+		self.fd.close()
 		print("ReadThread - stopped.")
 		return
             

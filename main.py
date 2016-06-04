@@ -44,8 +44,11 @@ read_s = len(RECEIVED_DATA)
 print(read_s)
 while read_s < size:
 	try:
-		temp_data = queue_read.get(True, 0.01)
-		RECEIVED_DATA.append(temp_data)
+		data_r = queue_read.get(True, 0.01)
+		data = ord(data_r[1])
+		data = (data<<8)&0xFF00
+		data = data + ord(data_r[0])
+		RECEIVED_DATA.append(data)
 		read_s+=2
 		print("Reading data from fpga. Read {0} bytes".format(read_s))
 	except:
