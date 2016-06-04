@@ -26,7 +26,7 @@ class ReadThread(threading.Thread):
 		self.isInterrupted = True
 
 	def __read(self):
-		return self.fd.read(1)
+		return self.fd.read(4)
 
 	def run(self):
 		index = 0 
@@ -39,11 +39,8 @@ class ReadThread(threading.Thread):
 				###data = ord(data_r[1])
 				###data = (data<<8)&0xFF00
 				###data = data + ord(data_r[0])
-				print(format(ord(data),'02x'))
-
-				#FILTERED_DATA.append(data)
-
-				self.queue.put(data)
+				#print(format(ord(data),'02x'))
+				self.queue.put(struct.unpack("i",data)[0])
 
 
 		#self.fd.close()
