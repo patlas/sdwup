@@ -30,7 +30,10 @@ try:
 	index = 0
 	byte = n_fd.read(4)
 	while byte != "":
-		write_thread.write(byte)
+		write_thread.write(byte[3])
+		write_thread.write(byte[2])
+		write_thread.write(byte[1])
+		write_thread.write(byte[0])
 		byte = n_fd.read(4)
 		index+=4
 	print("Send to fpga: {0} bytes".format(index))
