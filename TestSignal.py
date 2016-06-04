@@ -52,13 +52,13 @@ class TestSignal:
 	noise = numpy.sin(2*3.14*527*self.__t_sample)+numpy.sin(2*3.14*431*self.__t_sample)   
         noised_signal = self.__test_sig+noise#self.__noise
 
-	self._sig_to_filter = np.int16(noised_signal*1000)	
+	self._sig_to_filter = np.int32(noised_signal*1000)	
 
 
 	fd = open(file_name, 'wb')
 	fd.write(self._sig_to_filter)
-	#numpy.set_printoptions(formatter={'int':hex})
-	#print(self._sig_to_filter)
+	numpy.set_printoptions(formatter={'int':hex})
+	print(self._sig_to_filter)
 
 	self.show()
         
@@ -95,7 +95,7 @@ class TestSignal:
 	delay = (len(fir_coef)-1)/2
         p2.plot(y_filtered[delay:])
 ###################3
-	#fd.write(np.int16(y_filtered))
+	#fd.write(np.int32(y_filtered))
 	#numpy.set_printoptions(formatter={'int':hex})
 	#print("----------------------")
 	#print(np.uint16(y_filtered))

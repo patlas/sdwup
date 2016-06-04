@@ -28,11 +28,11 @@ n_fd = open("noised_signal.bin", "rb")
 
 try:
 	index = 0
-	byte = n_fd.read(1)
+	byte = n_fd.read(4)
 	while byte != "":
 		write_thread.write(byte)
-		byte = n_fd.read(1)
-		index+=1
+		byte = n_fd.read(4)
+		index+=4
 	print("Send to fpga: {0} bytes".format(index))
 finally:
 	n_fd.close()
@@ -49,7 +49,7 @@ while read_s < size:
 		data = (data<<8)&0xFF00
 		data = data + ord(data_r[0])
 		RECEIVED_DATA.append(data)
-		read_s+=2
+		read_s+=4
 		print("Reading data from fpga. Read {0} bytes".format(read_s))
 	except:
 		continue

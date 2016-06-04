@@ -26,7 +26,7 @@ class ReadThread(threading.Thread):
 		self.isInterrupted = True
 
 	def __read(self):
-		return self.fd.read(2)
+		return self.fd.read(4)
 
 	def run(self):
 		while not self.isInterrupted:

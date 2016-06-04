@@ -23,6 +23,7 @@ class WriteThread(threading.Thread):
     
     def __write(self, data):
         self.fd.write(data)#bytearray([data]))
+        self.fd.flush()
 
     def write(self, data):
 	self.__write(data)
