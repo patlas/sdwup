@@ -31,6 +31,10 @@ try:
 	index = 0
 	byte = n_fd.read(4)
 	while byte != "":
+		# if need send data as BigEndian uncomment 2 lines below
+		#byte = struct.unpack(">i",byte)[0] # 1st one
+		#byte = struct.pack("<i", byte) # 2nd one
+		
 		write_thread.write(byte)
 		#write_thread.write(byte[1])
 		#write_thread.write(byte[2])
