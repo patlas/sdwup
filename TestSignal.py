@@ -57,8 +57,8 @@ class TestSignal:
 
 	fd = open(file_name, 'wb')
 	fd.write(self._sig_to_filter)
-	numpy.set_printoptions(formatter={'int':hex})
-	print(self._sig_to_filter)
+	#numpy.set_printoptions(formatter={'int':hex})
+	#print(self._sig_to_filter)
 
 	self.show()
         
