@@ -49,16 +49,24 @@ finally:
 #from WriteThread import FILTERED_DATA
 RECEIVED_DATA = []
 read_s = len(RECEIVED_DATA)
-print(read_s)
+#print(read_s)
+data = ''
+index = 0
 while read_s < size:
 	try:
 		data_r = queue_read.get(True, 0.01)
 		#data = ord(data_r[1])
 		#data = (data<<8)&0xFF00
 		#data = data + ord(data_r[0])
-		RECEIVED_DATA.append(struct.unpack("i",data_r)[0])
-		read_s+=4
-		print("Reading data from fpga. Read {0} bytes".format(read_s))
+		data = data+data_r
+		index+=1
+		
+		if index == 4:
+			RECEIVED_DATA.append(struct.unpack("i",data)[0])
+			data = ''
+			index = 0
+			read_s+=4
+			print("Reading data from fpga. Read {0} bytes".format(read_s))
 	except:
 		continue
 
