@@ -39,7 +39,7 @@ try:
 		#write_thread.write(byte[1])
 		#write_thread.write(byte[2])
 		#write_thread.write(byte[3])
-		byte = n_fd.read(4)
+		byte = n_fd.read(1)
 		index+=1
 	print("Send to fpga: {0} bytes".format(index))
 finally:
