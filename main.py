@@ -6,6 +6,7 @@ from TestSignal import TestSignal
 import os
 import time
 import Queue
+import struct
 
 
 queue_read = Queue.Queue(maxsize=1000)
@@ -30,10 +31,10 @@ try:
 	index = 0
 	byte = n_fd.read(4)
 	while byte != "":
-		write_thread.write(byte[3])
-		write_thread.write(byte[2])
-		write_thread.write(byte[1])
-		write_thread.write(byte[0])
+		write_thread.write(byte)
+		#write_thread.write(byte[1])
+		#write_thread.write(byte[2])
+		#write_thread.write(byte[3])
 		byte = n_fd.read(4)
 		index+=4
 	print("Send to fpga: {0} bytes".format(index))
@@ -48,10 +49,10 @@ print(read_s)
 while read_s < size:
 	try:
 		data_r = queue_read.get(True, 0.01)
-		data = ord(data_r[1])
-		data = (data<<8)&0xFF00
-		data = data + ord(data_r[0])
-		RECEIVED_DATA.append(data)
+		#data = ord(data_r[1])
+		#data = (data<<8)&0xFF00
+		#data = data + ord(data_r[0])
+		RECEIVED_DATA.append(struct.unpack("i",data_r)[0])
 		read_s+=4
 		print("Reading data from fpga. Read {0} bytes".format(read_s))
 	except:
@@ -69,7 +70,7 @@ import numpy
 #print RECEIVED_DATA
 
 import matplotlib.pylab as plt
-plt.plot(numpy.int16(RECEIVED_DATA))
+plt.plot(numpy.int32(RECEIVED_DATA))
 plt.show()
 
 

@@ -29,6 +29,7 @@ class ReadThread(threading.Thread):
 		return self.fd.read(4)
 
 	def run(self):
+		index = 0 
 		while not self.isInterrupted:
 			####data_r = self.__read()
 			data = self.__read()
@@ -41,6 +42,7 @@ class ReadThread(threading.Thread):
 				#print(format(data,'02x'))
 
 				#FILTERED_DATA.append(data)
+
 				self.queue.put(data)
 
 
