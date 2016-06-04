@@ -48,7 +48,7 @@ finally:
 
 #from WriteThread import FILTERED_DATA
 RECEIVED_DATA = []
-read_s = len(RECEIVED_DATA)
+read_s = 0 #len(RECEIVED_DATA)
 #print(read_s)
 data = ''
 index = 0

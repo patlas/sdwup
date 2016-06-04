@@ -39,14 +39,14 @@ class ReadThread(threading.Thread):
 				###data = ord(data_r[1])
 				###data = (data<<8)&0xFF00
 				###data = data + ord(data_r[0])
-				#print(format(ord(data),'02x'))
+				print(format(ord(data),'02x'))
 
 				#FILTERED_DATA.append(data)
 
 				self.queue.put(data)
 
 
-		self.fd.close()
+		#self.fd.close()
 		print("ReadThread - stopped.")
 		return
             
