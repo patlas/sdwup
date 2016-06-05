@@ -4,13 +4,9 @@ import struct
 import numpy
 import binascii
 
-from WriteThread import FILTERED_DATA
 
+XILLIBUS_DEV = "read_from_filter.bin"
 
-XILLIBUS_DEV = "read_from_filter.bin"#"/home/patlas/Pulpit/a.bin" #/dev/xillibus"  # to be changed
-
-
-#FILTERED_ARRAY = []# numpy.arange()
 
 class ReadThread(threading.Thread):
 
@@ -26,25 +22,19 @@ class ReadThread(threading.Thread):
 		self.isInterrupted = True
 
 	def __read(self):
-		return self.fd.read(4)
+		return self.fd.read(2)
 
 	def run(self):
-		index = 0 
+
 		while not self.isInterrupted:
-			####data_r = self.__read()
-			data = self.__read()
-			#print(binascii.b2a_hex(a))
-			#print(ord(data))
-			if len(data) != 0: ###len(data_r) != 0:
-				###data = ord(data_r[1])
-				###data = (data<<8)&0xFF00
-				###data = data + ord(data_r[0])
+			data_r = self.__read()
+			if len(data_r) != 0: ###len(data_r) != 0:
 				#print(format(ord(data),'02x'))
-				self.queue.put(struct.unpack("i",data)[0])
+				self.queue.put(data_r)
 
 
-		#self.fd.close()
 		print("ReadThread - stopped.")
+		self.fd.close()
 		return
             
             
