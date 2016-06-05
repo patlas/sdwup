@@ -28,7 +28,7 @@ class TestSignal:
 
 		self.__t_sample = numpy.arange(self.__pc*self.__spp)/(self.__f_sampling)#self.__F)
 
-		self.__test_sig = numpy.sin(2*3.14*self.__F*self.__t_sample)
+		self.__test_sig = numpy.sin(2*3.14*self.__F*self.__t_sample) + numpy.cos(2*3.14*self.__F/4*self.__t_sample)
 
 		noise = numpy.sin(2*3.14*527*self.__t_sample)+numpy.sin(2*3.14*431*self.__t_sample)   
 		noised_signal = self.__test_sig+noise#self.__noise

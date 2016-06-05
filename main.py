@@ -45,7 +45,7 @@ print("Send to fpga: {0} bytes".format(size))
 RECEIVED_DATA = []
 read_s = 0 #len(RECEIVED_DATA)
 
-while read_s < size:
+while read_s < (size-6):
 	try:
 		data_r = queue_read.get(True, 0.01)
 
@@ -68,8 +68,8 @@ print ("-------------------------")
 #print RECEIVED_DATA
 
 import matplotlib.pylab as plt
-f_delay = (len(fir_coef)-1)/2
-plot_array = np.concatenate((np.zeros(f_delay,dtype=np.uint16), np.uint16(RECEIVED_DATA)[f_delay:]))
+f_delay = (len(fir_coef)-1)# /2
+plot_array = np.concatenate((np.zeros((f_delay-1)/2,dtype=np.uint16), np.uint16(RECEIVED_DATA)[f_delay:]))
 plt.plot(plot_array)
 plt.show()
 
