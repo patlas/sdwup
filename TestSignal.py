@@ -69,7 +69,7 @@ class TestSignal:
 		T = 1/self.__f_sampling
 		x_axis = numpy.arange(0,len(self.__t_sample))
 		
-		x = [a for a in x_axis if not (a%30)]
+		x = [a for a in x_axis if not (a%45)]
 		x_new = [round(a*T,3) for a in x]
 
 		plt.xticks(x, x_new)
@@ -100,7 +100,7 @@ class TestSignal:
 		p3.set_title("Signal filtered by FPGA FIR filter")
 		
 		plt.xlabel("Time [s]")
-		plt.figtext(0.05,0.5,"Digitized signal aplitude", va='center', rotation='vertical')
+		plt.figtext(0.02,0.5,"Digitized signal aplitude", va='center', rotation='vertical')
 		
 		fig2,(p4,p5, p6) = plt.subplots(3,1,sharex=True)
 		p4.plot(abs(fft(self._sig_to_filter))[2:])
@@ -111,7 +111,7 @@ class TestSignal:
 		p6.set_title("[FFT] FPGA filtered signal")
 		
 		plt.xlabel("Normalized frequency")
-		plt.figtext(0.05,0.5,"Digitized signal aplitude", va='center', rotation='vertical')
+		plt.figtext(0.02,0.5,"Digitized signal aplitude", va='center', rotation='vertical')
  
 	def show_firz(self):	
 		w,h=signal.freqz(fir_coef)
